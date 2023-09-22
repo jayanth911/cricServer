@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Data Sender</title>
+</head>
+
+<body>
+    <textarea id="data" rows="10" cols="30" oninput="sendData()"></textarea>
+
+    <script>
+        let websocket;
+
+        function connect() {
+            websocket = new WebSocket('ws://192.168.29.193:8765');
+            websocket.onopen = function () {
+                console.log('Connected to the server.');
+            };
+            websocket.onmessage = function (event) {
+                console.log('Received:', event.data);
+            };
+            websocket.onclose = function () {
+                console.log('Disconnected from the server.');
+            };
+            websocket.onerror = function (error) {
+                console.error('Error:', error);
+            };
+        }
+
+        function sendData() {
+            const data = document.getElementById('data').value;
+            if (websocket && websocket.readyState === WebSocket.OPEN) {
+                websocket.send(data);
+            } else {
+                console.error('Websocket is not connected. Connecting now...');
+                connect();
+            }
+        }
+
+        connect();
+    </script>
+</body>
+
+</html>

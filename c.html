@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Data Receiver</title>
+</head>
+
+<body>
+    <h2>Received Data:</h2>
+    <div id="receivedData"></div>
+
+    <script>
+        let websocket;
+
+        function connect() {
+            websocket = new WebSocket('ws://192.168.29.193:8765');
+            websocket.onopen = function () {
+                console.log('Connected to the server.');
+            };
+            websocket.onmessage = function (event) {
+                console.log('Received:', event.data);
+                document.getElementById('receivedData').innerText = event.data;
+            };
+            websocket.onclose = function () {
+                console.log('Disconnected from the server.');
+            };
+            websocket.onerror = function (error) {
+                console.error('Error:', error);
+            };
+        }
+
+        connect();
+    </script>
+</body>
+
+</html>
