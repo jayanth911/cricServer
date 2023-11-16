@@ -7,7 +7,7 @@ class DataLoader:
         self.clients = set()
 
     async def start_server(self):
-        server = await websockets.serve(self.handle_client, "192.168.29.193", 8765)
+        server = await websockets.serve(self.handle_client, "localhost/", 8765)
         await server.wait_closed()
 
 
